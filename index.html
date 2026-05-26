@@ -10,6 +10,28 @@
 </button>
 <style>
 
+    .progress-container{
+    width:100%;
+    height:20px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:10px;
+}
+
+#progressBar{
+    width:0%;
+    height:100%;
+    background:#0d9488;
+    transition:0.4s;
+}
+
+#progressText{
+    text-align:center;
+    font-weight:bold;
+    color:#0d9488;
+}
+
 :root{
  --primary:#0d9488;
  --secondary:#14b8a6;
@@ -164,8 +186,8 @@ body{
 <p id="subtitle">Prepare for the blessed Day of Arafa</p>
 
 <div class="language">
-<button onclick="changeLang('en')">English</button>
-<button onclick="changeLang('ta')">தமிழ்</button>
+<button onclick="changeLang('en')" onclick="updateProgress()">English</button>
+<button onclick="changeLang('ta')" onclick="updateProgress()">தமிழ்</button>
 </div>
 </div>
 
@@ -174,13 +196,13 @@ body{
 <div class="card">
 <h2 id="checkTitle">Today's Checklist</h2>
 
-<div class="check-item"><input type="checkbox"><span id="c1">Fast on Arafa Day</span></div>
-<div class="check-item"><input type="checkbox"><span id="c2">Pray all five prayers</span></div>
-<div class="check-item"><input type="checkbox"><span id="c3">Read Quran</span></div>
-<div class="check-item"><input type="checkbox"><span id="c4">Make Dua</span></div>
-<div class="check-item"><input type="checkbox"><span id="c5">Give Charity</span></div>
-<div class="check-item"><input type="checkbox"><span id="c6">Recite Takbeer</span></div>
-<div class="check-item"><input type="checkbox"><span id="c7">Seek Forgiveness</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()"><span id="c1">Fast on Arafa Day</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()" ><span id="c2">Pray all five prayers</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()"><span id="c3">Read Quran</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()"><span id="c4">Make Dua</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()"><span id="c5">Give Charity</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()"><span id="c6">Recite Takbeer</span></div>
+<div class="check-item"><input type="checkbox" onchange="updateProgress()"><span id="c7">Seek Forgiveness</span></div>
 
 </div>
 
@@ -241,6 +263,35 @@ Arafa Day Companion © 2026
 
 let count=localStorage.getItem("takbeerCount") || 0;
 document.getElementById("counter").innerText=count;
+
+function updateProgress(){
+
+const total =
+document.querySelectorAll(
+'input[type="checkbox"]'
+).length;
+
+const checked =
+document.querySelectorAll(
+'input[type="checkbox"]:checked'
+).length;
+
+const percent =
+Math.round(
+(checked / total) * 100
+);
+
+document.getElementById(
+'progressBar'
+).style.width =
+percent + '%';
+
+document.getElementById(
+'progressText'
+).innerText =
+percent + '% completed';
+
+}
 
 function increase(){
  count++;
